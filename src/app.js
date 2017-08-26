@@ -7,7 +7,7 @@ const app = express();
 const router = express.Router();
 
 // conecta com banco de dados
-mongoose.connect('mongodb://verneck:cabrito@ds159493.mlab.com:59493/api');
+mongoose.connect('mongodb://verneck:passwordaqui@ds159493.mlab.com:59493/api');
 
 // carrega as rotas
 const indexRoute = require('./routes/index-route');
