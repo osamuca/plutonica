@@ -10,10 +10,10 @@ const controller = require('../controllers/product-controllers');
 /*
 [/:id isto é uma variavel por tanto tem que ter cuidado com os conflitos]
 */
+router.get('/', controller.get);
 router.post('/', controller.post); 
 router.put('/:id', controller.put); 
 router.delete('/', controller.delete); 
-
 // router.put('/:id', (req, res, next) => {
     // const id = req.params.id;
     // res.status(201).send({ 
