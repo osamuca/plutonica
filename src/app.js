@@ -7,14 +7,19 @@ const app = express();
 const router = express.Router();
 
 // conecta com banco de dados
-mongoose.connect('mongodb://verneck:passwordaqui@ds159493.mlab.com:59493/api');
+mongoose.connect('mongodb://verneck:cabrito@ds159493.mlab.com:59493/api');
+
+// carrega os models
+const Product = require('./models/product');
 
 // carrega as rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ 
+    extended: false 
+}));
 
 // rota
 // const route = router.get('/', (req, res, next) => {
