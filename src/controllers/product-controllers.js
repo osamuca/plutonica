@@ -2,8 +2,10 @@
 
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
-
-exports.get = (req, res, next) => {
+/**
+ * Primeiro code get que fiz.
+ * 
+ * exports.get = (req, res, next) => {
     product
     .find({
         // filtrando e buscando somente o necessário.
@@ -13,7 +15,56 @@ exports.get = (req, res, next) => {
     }).catch(e => {
         res.status(400).send(e);
     });
+} 
+**/
+exports.get = (req, res, next) => {
+    Product
+    .find({
+        active: true
+    }, 'title price slug')
+    .then(data => {
+        res.status(201).send(data); 
+    }).catch(e => {
+        res.status(400).send(e);
+    });
 }
+exports.getBySlug = (req, res, next) => {
+    Product
+    .findOne({
+        // fazendo um filtro do produto
+        slug: req.params.slug,
+        active: true
+    }, 'title description price slug tags')
+    .then(data => {
+        res.status(200).send(data); 
+    }).catch(e => {
+        res.status(400).send(e);
+    });
+}
+exports.getById = (req, res, next) => {
+    Product
+            // // // fazendo um filtro do produto
+    .findById('title description price slug tags')
+    .then(data => {
+        res.status(200).send(data); 
+    }).catch(e => {
+        res.status(400).send(e);
+    });
+}
+
+exports.getByTag = (req, res, next) => {
+    Product
+    .findOne({
+        // fazendo um filtro do produto
+        tags: req.params.tag,
+        active: true
+    }, 'title description price slug tags')
+    .then(data => {
+        res.status(200).send(data); 
+    }).catch(e => {
+        res.status(400).send(e);
+    });
+} 
 exports.post = (req, res, next) => {
     // let product = new Product(req.body);
     /*
