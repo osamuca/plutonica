@@ -97,12 +97,33 @@ exports.post = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-    res.status(201).send(req.body);
-    const id = req.params.id;
-    res.status(201).send({ 
-        id: id, 
-        item: req.body 
-    });
+    // res.status(201).send(req.body);
+    /*
+    // const id = req.params.id;
+    // res.status(200).send({ 
+    //     id: id, 
+    //     item: req.body 
+    // });
+    */
+    Product
+        .findByIdAndUpdate(req, params.id, {
+            // setando todas as requisições
+            $set: {
+                title: req.body.title,
+                description: req.body.description,
+                price: req.body.price,
+                slug: req.body.slug
+            }
+        }).then(x => {
+            res.status(200).send({
+                message: 'Produto atualizado com sucesso!'
+            });
+        }).catch(e => {
+            res.status(400).send({
+                 message: 'Falha ao atualizar o produto',
+                 date: e
+            });
+        });
 };
 
 exports.delete = (req, res, next) => {
