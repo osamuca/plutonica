@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
+const ValidationContract = require('../validators/fluent-validators');
 /**
  * Primeiro code get que fiz.
  * 
@@ -66,6 +67,18 @@ exports.getByTag = (req, res, next) => {
     });
 } 
 exports.post = (req, res, next) => {
+    // contract usado para não ficar usando varios ifs
+    let contract = new ValidationContract();
+    contract.hasMinLen(req.body.title, 3, 'O título deve conter pelo menos 3 caracteres');
+    contract.hasMinLen(req.body.slug, 3, 'O título deve conter pelo menos 3 caracteres');
+    contract.hasMinLen(req.body.description, 3, 'O título deve conter pelo menos 3 caracteres');
+
+    // se os dados dorem inválidos
+    if (!contract.isValid()) {
+        res.status(400).send(contract.errors()).end();
+        return;
+    }
+
     // let product = new Product(req.body);
     /*
     var product = new Product(req.body);
@@ -129,7 +142,7 @@ exports.put = (req, res, next) => {
 exports.delete = (req, res, next) => {
     // res.status(201).send(req.body);
     Product
-    .findByIdAndRemove(req.body.id,) 
+    .findByIdAndRemove(req.body.id) 
     .then(x => {
         res.status(200).send({
             message: 'Produto removido com sucesso!'
