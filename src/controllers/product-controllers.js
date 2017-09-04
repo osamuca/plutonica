@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 const ValidationContract = require('../validators/fluent-validators');
+const repository = require('../repositories/product-repository');
+
 /**
  * Primeiro code get que fiz.
  * 
@@ -19,52 +21,59 @@ const ValidationContract = require('../validators/fluent-validators');
 } 
 **/
 exports.get = (req, res, next) => {
-    Product
-    .find({
-        active: true
-    }, 'title price slug')
-    .then(data => {
-        res.status(201).send(data); 
-    }).catch(e => {
-        res.status(400).send(e);
-    });
+    // Product
+    // .find({
+    //     active: true
+    // }, 'title price slug')
+    repository
+        .then(data => {
+            res.status(201).send(data); 
+        }).catch(e => {
+            res.status(400).send(e);
+        });
 }
 exports.getBySlug = (req, res, next) => {
-    Product
-    .findOne({
-        // fazendo um filtro do produto
-        slug: req.params.slug,
-        active: true
-    }, 'title description price slug tags')
-    .then(data => {
-        res.status(200).send(data); 
-    }).catch(e => {
-        res.status(400).send(e);
-    });
+    // Product
+    // .findOne({
+    //     // fazendo um filtro do produto
+    //     slug: req.params.slug,
+    //     active: true
+    // }, 'title description price slug tags')
+    repository
+        .getBySlug(req.params.slug)
+        .then(data => {
+            res.status(200).send(data); 
+        }).catch(e => {
+            res.status(400).send(e);
+        });
 }
 exports.getById = (req, res, next) => {
-    Product
-            // // // fazendo um filtro do produto
-    .findById('title description price slug tags')
-    .then(data => {
-        res.status(200).send(data); 
-    }).catch(e => {
-        res.status(400).send(e);
-    });
+    // Product
+    //         // // // fazendo um filtro do produto
+    // .findById('title description price slug tags')
+    repository
+        .getById(req.params.id)
+        .then(data => {
+            res.status(200).send(data); 
+        }).catch(e => {
+            res.status(400).send(e);
+        });
 }
 
 exports.getByTag = (req, res, next) => {
-    Product
-    .findOne({
-        // fazendo um filtro do produto
-        tags: req.params.tag,
-        active: true
-    }, 'title description price slug tags')
-    .then(data => {
-        res.status(200).send(data); 
-    }).catch(e => {
-        res.status(400).send(e);
-    });
+    // Product
+    // .findOne({
+    //     // fazendo um filtro do produto
+    //     tags: req.params.tag,
+    //     active: true
+    // }, 'title description price slug tags')
+    repository
+        .getByTag(req.params.tag)
+        .then(data => {
+            res.status(200).send(data); 
+        }).catch(e => {
+            res.status(400).send(e);
+        });
 } 
 exports.post = (req, res, next) => {
     // contract usado para não ficar usando varios ifs
@@ -90,12 +99,16 @@ exports.post = (req, res, next) => {
     var product = new Product();
     product.title = req.body.title;
     */
-    var product = new Product(req.body);
+    
+    // var product = new Product(req.body);
+
     // salva no banco de dados
     // é assincrono e retorna um promisse
     //product.save();
-    product
-        .save()
+    // product
+    //     .save()
+    repository
+        .create(req.body)
         .then(x => {
             res.status(201).send({ 
                 message: 'Produto cadastrado com sucesso!'
@@ -118,39 +131,45 @@ exports.put = (req, res, next) => {
     //     item: req.body 
     // });
     */
-    Product
-        .findByIdAndUpdate(req, params.id, {
-            // setando todas as requisições
-            $set: {
-                title: req.body.title,
-                description: req.body.description,
-                price: req.body.price,
-                slug: req.body.slug
-            }
-        }).then(x => {
-            res.status(200).send({
-                message: 'Produto atualizado com sucesso!'
+
+    // Product
+    //     .findByIdAndUpdate(req, params.id, {
+    //         // setando todas as requisições
+    //         $set: {
+    //             title: req.body.title,
+    //             description: req.body.description,
+    //             price: req.body.price,
+    //             slug: req.body.slug
+    //         }
+    //     })
+        repository
+            .update(req.params.id, req.body)
+            .then(x => {
+                res.status(200).send({
+                    message: 'Produto atualizado com sucesso!'
+                });
+            }).catch(e => {
+                res.status(400).send({
+                    message: 'Falha ao atualizar o produto',
+                    date: e
+                });
             });
-        }).catch(e => {
-            res.status(400).send({
-                 message: 'Falha ao atualizar o produto',
-                 date: e
-            });
-        });
 };
 
 exports.delete = (req, res, next) => {
     // res.status(201).send(req.body);
-    Product
-    .findByIdAndRemove(req.body.id) 
-    .then(x => {
-        res.status(200).send({
-            message: 'Produto removido com sucesso!'
+    
+    // Product
+    // .findByIdAndRemove(req.body.id) 
+    repository.delete(req.body.id)
+        .then(x => {
+            res.status(200).send({
+                message: 'Produto removido com sucesso!'
+            });
+        }).catch(e => {
+            res.status(400).send({
+                message: 'Falha ao remover o produto',
+                date: e
+            });
         });
-    }).catch(e => {
-        res.status(400).send({
-             message: 'Falha ao remover o produto',
-             date: e
-        });
-    });
 };
