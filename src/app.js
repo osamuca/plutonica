@@ -11,10 +11,13 @@ mongoose.connect('mongodb://verneck:cabrito@ds159493.mlab.com:59493/api');
 
 // carrega os models
 const Product = require('./models/product');
+const Customer = require('./models/customer');
+const Order = require('./models/order');
 
 // carrega as rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
+const customerRoute = require('./routes/customer-route');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 
@@ -50,6 +53,7 @@ app.use(bodyParser.urlencoded({
 // app.use('/', route);
 app.use('/', indexRoute);
 app.use('/products', productRoute);
+app.use('/customers', customerRoute);
 // app.use('/products', put);
 // app.use('/products', del);
 
