@@ -1,57 +1,45 @@
 'use strict';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const app = express();
 const router = express.Router();
 
-// conecta com banco de dados
-mongoose.connect('mongodb://verneck:cabrito@ds159493.mlab.com:59493/api');
+// Connecta ao banco
+mongoose.connect(config.connectionString);
 
-// carrega os models
+// Carrega os Models
 const Product = require('./models/product');
+const Customer = require('./models/customer');
+const Order = require('./models/order');
 
-// carrega as rotas
+// Carrega as Rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
+const customerRoute = require('./routes/customer-route');
+const orderRoute = require('./routes/order-route');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ 
-    extended: false 
+app.use(bodyParser.json({
+    limit: '5mb'
+}));
+app.use(bodyParser.urlencoded({
+    extended: false
 }));
 
-// rota
-// const route = router.get('/', (req, res, next) => {
-//     res.status(200).send({
-//         title: "Node API",
-//         version: "0.0.1"
-//     });
-// });
+// Habilita o CORS
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+});
 
-// rota
-// const create = router.post('/', (req, res, next) => {
-//     res.status(201).send(req.body);
-// });
-// const put = router.put('/:id', (req, res, next) => {
-//     const id = req.params.id;
-//     res.status(201).send({ 
-//         id: id, 
-//         item: req.body 
-//     });
-// });
-// const del = router.delete('/', (req, res, next) => {
-//     res.status(200).send(req.body);
-// });
-
-// metodos
-// atribuiação da rota ao app
-
-// app.use('/', route);
 app.use('/', indexRoute);
 app.use('/products', productRoute);
-// app.use('/products', put);
-// app.use('/products', del);
+app.use('/customers', customerRoute);
+app.use('/orders', orderRoute);
 
-// exportação da aplicação
 module.exports = app;

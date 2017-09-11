@@ -2,38 +2,15 @@
 
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/product-controllers');
+const controller = require('../controllers/product-controller');
+const authService = require('../services/auth-service');
 
-// router.post('/', (req, res, next) => {
-//     res.status(201).send(req.body);
-// });
-/*
-[/:id isto é uma variavel por tanto tem que ter cuidado com os conflitos]
-*/
 router.get('/', controller.get);
 router.get('/:slug', controller.getBySlug);
 router.get('/admin/:id', controller.getById);
 router.get('/tags/:tag', controller.getByTag);
-router.post('/', controller.post); 
-router.put('/:id', controller.put); 
-router.delete('/', controller.delete); 
-// router.put('/:id', (req, res, next) => {
-    // const id = req.params.id;
-    // res.status(201).send({ 
-    //     id: id, 
-    //     item: req.body 
-    // });
-// });
-
-// router.delete('/', (req, res, next) => {
-//     // res.status(200).send(req.body);
-// });
-
-// router.get('/', (req, res, next) => {
-//     res.status(200).send({
-//         title: "Node API",
-//         version: "0.0.2"
-//     });
-// });
+router.post('/', authService.isAdmin, controller.post);
+router.put('/:id', authService.isAdmin, controller.put);
+router.delete('/', authService.isAdmin, controller.delete);
 
 module.exports = router;
