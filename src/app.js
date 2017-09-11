@@ -20,10 +20,7 @@ const Order = require('./models/order');
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
 const customerRoute = require('./routes/customer-route');
-<<<<<<< HEAD
 const orderRoute = require('./routes/order-route');
-=======
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
 
 app.use(bodyParser.json({
     limit: '5mb'
@@ -43,11 +40,6 @@ app.use(function (req, res, next) {
 app.use('/', indexRoute);
 app.use('/products', productRoute);
 app.use('/customers', customerRoute);
-<<<<<<< HEAD
 app.use('/orders', orderRoute);
-=======
-// app.use('/products', put);
-// app.use('/products', del);
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
 
 module.exports = app;
