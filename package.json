@@ -16,16 +16,10 @@
     "express": "^4.15.3",
     "guid": "0.0.12",
     "http": "0.0.0",
-<<<<<<< HEAD
     "jsonwebtoken": "^7.4.0",
     "md5": "^2.2.1",
     "mongoose": "^4.11.0",
     "sendgrid": "^2.0.0"
-=======
-    "live-server": "^1.2.0",
-    "md5": "^2.2.1",
-    "mongoose": "^4.11.8"
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

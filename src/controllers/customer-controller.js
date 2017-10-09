@@ -1,5 +1,4 @@
 'use strict';
-<<<<<<< HEAD
 
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/customer-repository');
@@ -7,22 +6,6 @@ const md5 = require('md5');
 const authService = require('../services/auth-service');
 
 const emailService = require('../services/email-service');
-=======
-// const mongoose = require('mongoose');
-// const Customer = mongoose.model('Customer');
-
-// exports.create = async(date) => {
-//     var customer = new Customer(date);
-//     await product.save();
-// }
-
-// const ValidationContract = require('../validators/fluent-validator');
-const repository = require('../repositories/customer-repository');
-const md5 = require('md5');
-// const authService = require('../services/auth-service');
-
-// const emailService = require('../services/email-service');
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
 
 exports.post = async(req, res, next) => {
     let contract = new ValidationContract();

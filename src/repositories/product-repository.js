@@ -2,16 +2,6 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-<<<<<<< HEAD
-=======
-// exportando
-// exports.get = () => {
-//     return Product
-//         .find({
-//             active: true
-//         }, 'title price slug');
-// }
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
 exports.get = async() => {
     const res = await Product.find({
         active: true
@@ -43,10 +33,6 @@ exports.getByTag = async(tag) => {
     return res;
 }
 
-<<<<<<< HEAD
-=======
-// pode ser assim tbm => // exports.create = async(body) => {
->>>>>>> bf8fee4e4b6f0e3dc9f1ea761098a1213f85dbc8
 exports.create = async(data) => {
     var product = new Product(data);
     await product.save();
